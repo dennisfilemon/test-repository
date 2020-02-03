@@ -55,7 +55,7 @@ class Item(Resource):
             return {'message': "An error occurred when retrieving the data."}, 500
 
         output = parsed['articles']
-        shuffle(output)
+        # shuffle(output)
         for k,v in output[0].iteritems():
             if k == 'title':
                 title = v
