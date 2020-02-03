@@ -92,8 +92,8 @@ class Item(Resource):
         return item.json(), 201
 
     @jwt_required()
-    def delete(self, name):
-        item = ItemModel.find_by_title(name)
+    def delete(self, id):
+        item = ItemModel.find_by_id(id)
         if item:
             item.delete_from_db()
             return {'message': 'Item deleted.'}

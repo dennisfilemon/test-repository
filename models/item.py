@@ -28,7 +28,7 @@ class ItemModel(db.Model):
 
     def json(self):
         # return {'name': self.name, 'price': self.price}
-        return {'category': self.category, 'country': self.country, 'title': self.title, 'content': self.content}
+        return {'id': self.id,'category': self.category, 'country': self.country, 'title': self.title, 'content': self.content}
 
     @classmethod
     def find_by_category(cls, category, country):
@@ -37,6 +37,10 @@ class ItemModel(db.Model):
     @classmethod
     def find_by_title(cls, title):
         return cls.query.filter_by(title=title).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     def save_to_db(self):
         db.session.add(self)
