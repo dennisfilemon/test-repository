@@ -31,8 +31,11 @@ class Item(Resource):
     @jwt_required()
     def get(self, name):
         item = ItemModel.find_by_category(name)
+        item_list = []
         if item.count() > 0:
-            return item
+            for i in item:
+                item_list.append(i.json())
+            return item_list
         return {'message': 'Item not found'}, 404
 
     @jwt_required()
