@@ -30,9 +30,9 @@ class ItemModel(db.Model):
         self.title = title
         self.content = content
 
-    def json(self):
+    # def json(self):
         # return {'name': self.name, 'price': self.price}
-        return {'id': self.id,'category': self.category, 'country': self.country, 'title': self.title, 'content': self.content}
+        # return {'id': self.id,'category': self.category, 'country': self.country, 'title': self.title, 'content': self.content}
 
     @classmethod
     def find_by_category(cls, category, country):

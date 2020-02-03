@@ -92,14 +92,15 @@ class Item(Resource):
         except:
             return {"message": "An error occurred inserting the item."}, 500
 
-        return item.json(), 201
+        # return item.json(), 201
+        return item_schema.dump(item), 201
 
     @jwt_required()
     def delete(self, name):
         item = ItemModel.find_by_id(name)
         if item:
             item.delete_from_db()
-            return {'message': 'Item deleted.'}
+            return {'message': 'Item deleted.', 'data': item_schema.dump(item).data}, 201
         return {'message': 'Item not found.'}, 404
 
     # def put(self, name):
@@ -118,4 +119,6 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
+        # return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
+        items = ItemModel.query.all()
+        return items_schema.dump(items)
