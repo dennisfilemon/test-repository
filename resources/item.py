@@ -42,10 +42,7 @@ class Item(Resource):
 
         data = Item.parser.parse_args()
 
-        url = ('https://newsapi.org/v2/top-headlines?'
-               'category=' + name +
-               'country=' + data['country'] +
-               'apiKey=8b6adf725c5746738a10b64ad98c8445')
+        url = ('https://newsapi.org/v2/top-headlines?category=' + name + 'country=' + data['country'] + 'apiKey=8b6adf725c5746738a10b64ad98c8445')
 
         response = requests.get(url)
         json_data = response.text
