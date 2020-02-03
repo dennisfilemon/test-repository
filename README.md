@@ -159,7 +159,7 @@ Here is the example of the result :
 
 
 
-### Deleting news to the database
+### Deleting news from the database
 
 Here is the URL of the API to Delete a certain news from the database (Login + news id required) :
 
