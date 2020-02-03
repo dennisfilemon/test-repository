@@ -52,6 +52,8 @@ class Item(Resource):
             return {'message': "An error occurred when retrieving the data."}, 500
 
         output = parsed['articles']
+        title = ''
+        content = ''
         stop_loop = True
         for i in output:
             for k,v in i.items():
