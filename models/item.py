@@ -6,14 +6,13 @@ ma = Marshmallow()
 
 
 class ItemModel(db.Model):
-    __tablename__ = 'items'
+    __tablename__ = "items"
 
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(80))
     country = db.Column(db.String(80))
     title = db.Column(db.String(120))
     content = db.Column(db.Text)
-
 
     def __init__(self, category, country, title, content):
         self.category = category
@@ -41,7 +40,7 @@ class ItemModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+
 class ItemModelSchema(ma.ModelSchema):
     class Meta:
         model = ItemModel
-
