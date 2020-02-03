@@ -54,7 +54,7 @@ class Item(Resource):
         except:
             return {"message": "An error occurred inserting the item."}, 500
 
-        return item_schema.dump(item), 201
+        return {'message': 'Item saved.', 'data': item_schema.dump(item)}, 201
 
     @jwt_required()
     def delete(self, name):
