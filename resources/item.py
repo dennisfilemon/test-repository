@@ -30,7 +30,8 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        item = ItemModel.find_by_category(name)
+        data = Item.parser.parse_args()
+        item = ItemModel.find_by_category(name, data['country'])
         # item_list = []
         if item.count() > 0:
             # for i in item:
@@ -57,20 +58,24 @@ class Item(Resource):
 
         output = parsed['articles']
         for i in output:
-            stop_loop = True
-            for k,v in i.items():
-                if not stop_loop:
-                    continue
-                elif k == 'title':
-                    if ItemModel.find_by_title(v):
-                        stop_loop = False
-                    else:
-                        title = v
-                        stop_loop = True
-                elif k == 'content':
-                    content = v
-            if stop_loop:
+            if not ItemModel.find_by_title(i['title']):
+                title = i['title']
+                content = i['content']
                 break
+            # stop_loop = True
+            # for k,v in i.items():
+            #     if not stop_loop:
+            #         continue
+            #     elif k == 'title':
+            #         if ItemModel.find_by_title(v):
+            #             stop_loop = False
+            #         else:
+            #             title = v
+            #             stop_loop = True
+            #     elif k == 'content':
+            #         content = v
+            # if stop_loop:
+            #     break
 
         if not title:
             return {"message": "No more news, please try again later."}, 500

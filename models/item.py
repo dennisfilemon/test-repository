@@ -31,8 +31,8 @@ class ItemModel(db.Model):
         return {'category': self.category, 'country': self.country, 'title': self.title, 'content': self.content}
 
     @classmethod
-    def find_by_category(cls, category):
-        return cls.query.filter_by(category=category)
+    def find_by_category(cls, category, country):
+        return cls.query.filter_by(category=category, country=country)
 
     @classmethod
     def find_by_title(cls, title):
