@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.item import ItemModel
-# from random import shuffle
 import requests
 import json
 
@@ -31,11 +30,12 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        item = ItemModel.find_by_name(name)
+        item = ItemModel.find_by_category(name)
         if item:
             return item.json()
         return {'message': 'Item not found'}, 404
 
+    @jwt_required()
     def post(self, name):
         # if ItemModel.find_by_name(name):
         #     return {'message': "An item with name '{}' already exists.".format(name)}, 400
@@ -52,12 +52,21 @@ class Item(Resource):
             return {'message': "An error occurred when retrieving the data."}, 500
 
         output = parsed['articles']
-        # shuffle(output)
-        for k,v in output[0].items():
-            if k == 'title':
-                title = v
-            elif k == 'content':
-                content = v
+        stop_loop = True
+        for i in output:
+            for k,v in i.items():
+                if not stop_loop:
+                    continue
+                elif k == 'title':
+                    if ItemModel.find_by_title(v):
+                        stop_loop = False
+                    else:
+                        title = v
+                        stop_loop = True
+                elif k == 'content':
+                    content = v
+            if stop_loop:
+                break
 
         item = ItemModel(name, data['country'], title, content)
 
@@ -70,28 +79,29 @@ class Item(Resource):
 
         return item.json(), 201
 
+    @jwt_required()
     def delete(self, name):
-        item = ItemModel.find_by_name(name)
+        item = ItemModel.find_by_title(name)
         if item:
             item.delete_from_db()
             return {'message': 'Item deleted.'}
         return {'message': 'Item not found.'}, 404
 
-    def put(self, name):
-        data = Item.parser.parse_args()
+    # def put(self, name):
+    #     data = Item.parser.parse_args()
+    #
+    #     item = ItemModel.find_by_name(name)
+    #
+    #     if item:
+    #         item.price = data['price']
+    #     else:
+    #         item = ItemModel(name, **data)
+    #
+    #     item.save_to_db()
+    #
+    #     return item.json()
 
-        item = ItemModel.find_by_name(name)
-
-        if item:
-            item.price = data['price']
-        else:
-            item = ItemModel(name, **data)
-
-        item.save_to_db()
-
-        return item.json()
-
-
+@jwt_required()
 class ItemList(Resource):
     def get(self):
         return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
