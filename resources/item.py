@@ -61,7 +61,7 @@ class Item(Resource):
         item = ItemModel.find_by_id(name)
         if item:
             item.delete_from_db()
-            return {'message': 'Item deleted.', 'data': item_schema.dump(item).data}, 201
+            return {'message': 'Item deleted.', 'data': item_schema.dump(item)}, 201
         return {'message': 'Item not found.'}, 404
 
 
