@@ -53,7 +53,7 @@ class Item(Resource):
 
         output = parsed['articles']
         # shuffle(output)
-        for k,v in output[0].iteritems():
+        for k,v in output[0].items():
             if k == 'title':
                 title = v
             elif k == 'content':
