@@ -32,7 +32,7 @@ class ItemModel(db.Model):
 
     @classmethod
     def find_by_category(cls, category):
-        return cls.query.filter_by(category=category).first()
+        return cls.query.filter_by(category=category)
 
     @classmethod
     def find_by_title(cls, title):
