@@ -1,6 +1,6 @@
 from db import db
-from flask_marshmallow import Marshmallow
 from marshmallow_sqlalchemy import ModelSchema
+from flask_marshmallow import Marshmallow
 
 ma = Marshmallow()
 
@@ -15,7 +15,7 @@ class ItemModel(db.Model):
     content = db.Column(db.Text)
 
 
-   def __init__(self, category, country, title, content):
+    def __init__(self, category, country, title, content):
         self.category = category
         self.country = country
         self.title = title
@@ -41,7 +41,7 @@ class ItemModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-
 class ItemModelSchema(ma.ModelSchema):
     class Meta:
         model = ItemModel
+
