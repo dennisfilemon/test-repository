@@ -1,4 +1,8 @@
 from db import db
+from flask_marshmallow import Marshmallow
+from marshmallow_sqlalchemy import ModelSchema
+
+ma = Marshmallow()
 
 
 class ItemModel(db.Model):
@@ -49,3 +53,8 @@ class ItemModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+
+class ItemModelSchema(ma.ModelSchema):
+    class Meta:
+        model = ItemModel

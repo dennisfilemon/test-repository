@@ -1,9 +1,11 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-from models.item import ItemModel
+from models.item import ItemModel, ItemModelSchema
 import requests
 import json
 
+items_schema = ItemModelSchema(many=True)
+item_schema = ItemModelSchema()
 
 class Item(Resource):
     parser = reqparse.RequestParser()
@@ -37,7 +39,8 @@ class Item(Resource):
             # for i in item:
             #     item_list.append(i.json())
             # return item_list
-            return [i.json() for i in item]
+            # return [i.json() for i in item]
+            return items_schema.dump(item)
         return {'message': 'Item not found'}, 404
 
     @jwt_required()
