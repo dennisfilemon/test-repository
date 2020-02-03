@@ -52,10 +52,8 @@ class Item(Resource):
             return {'message': "An error occurred when retrieving the data."}, 500
 
         output = parsed['articles']
-        title = ''
-        content = ''
-        stop_loop = True
         for i in output:
+            stop_loop = True
             for k,v in i.items():
                 if not stop_loop:
                     continue
@@ -69,6 +67,9 @@ class Item(Resource):
                     content = v
             if stop_loop:
                 break
+
+        if not title:
+            return {"message": "No more news, please try again later."}, 500
 
         item = ItemModel(name, data['country'], title, content)
 
